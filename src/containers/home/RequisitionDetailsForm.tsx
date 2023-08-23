@@ -7,8 +7,9 @@ import * as Yup from "yup";
 import { PageNumbers } from "../../interface/home";
 import { IRequisitionDetails } from "../../interface/forms";
 import { genderOptions, urgencyOptions } from "./constants";
+import { useData } from "./DataProvider";
 
-const RequisitionDetailsForm: React.FC<{ handleTab: (n: PageNumbers) => void; setRequisitionDetails: (details: IRequisitionDetails) => void; requisitionDetails: IRequisitionDetails }> = ({ handleTab, setRequisitionDetails, requisitionDetails }) => {
+const RequisitionDetailsForm: React.FC<{ handleTab: (n: PageNumbers) => void; }> = ({ handleTab }) => {
   const {
     handleChange,
     errors,
@@ -41,17 +42,30 @@ const RequisitionDetailsForm: React.FC<{ handleTab: (n: PageNumbers) => void; se
       handleTab(1);
     },
   });
-
+  const { setState } = useData();
 
   const customHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleChange(e); // Call Formik's handleChange 
     const { name, value } = e.target;
-    setRequisitionDetails({ ...requisitionDetails, [name]: value, });
+    setState((prevState) => ({
+      ...prevState,
+      requisitionDetails: {
+        ...prevState.requisitionDetails,
+        [name]: value,
+      },
+    }));
   };
 
   const customSelectChange = (name: string, value: string) => {
     setFieldValue(name, value)//set values in Formik's Fields
-    setRequisitionDetails({ ...requisitionDetails, [name]: value, });
+    setState((prevState) => ({
+      ...prevState,
+      requisitionDetails: {
+        ...prevState.requisitionDetails,
+        [name]: value,
+      },
+    }));
+
   }
 
   return (

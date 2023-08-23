@@ -16,7 +16,7 @@ import JobDetailsForm from "./JobDetailsForm";
 import RequisitionForm from "./RequisitionDetailsForm";
 import DisplayCard from "./PreviewCard";
 import { PageNumbers } from "../../interface/home";
-import { IInterViewSettings, IJobDetails, IRequisitionDetails } from "@src/interface/forms";
+
 
 const CustomTab: React.FC<TabProps> = ({ children, ...props }) => {
   return (
@@ -28,24 +28,6 @@ const CustomTab: React.FC<TabProps> = ({ children, ...props }) => {
 
 const HomeLayout = () => {
   const [page, setPage] = useState<PageNumbers>(0);
-  const [requisitionDetails, setRequisitionDetails] =
-    useState<IRequisitionDetails>({
-      requisitionTitle: "",
-      noOfOpenings: 0,
-      urgency: "",
-      gender: "",
-    });
-  const [jobDetails, setJobDetails] = useState<IJobDetails>({
-    jobTitle: "",
-    jobDetails: "",
-    jobLocation: "",
-  });
-  const [interviewSettings, setInterviewSettings] = useState<IInterViewSettings>({
-    interviewMode: "",
-    interviewDuration: "",
-    interviewLanguage: ""
-  })
-
   const handlePage = (pageNumber: PageNumbers) => {
     setPage(pageNumber);
   };
@@ -65,20 +47,16 @@ const HomeLayout = () => {
           <Grid display="grid" gridTemplateColumns="3fr 2fr" gap="24px">
             <TabPanels>
               <TabPanel>
-                <RequisitionForm handleTab={handlePage} requisitionDetails={requisitionDetails} setRequisitionDetails={setRequisitionDetails} />
+                <RequisitionForm handleTab={handlePage} />
               </TabPanel>
               <TabPanel>
-                <JobDetailsForm handleTab={handlePage} setJobDetails={setJobDetails} jobDetails={jobDetails} />
+                <JobDetailsForm handleTab={handlePage} />
               </TabPanel>
               <TabPanel>
-                <InterviewSettingsForm handleTab={handlePage} interviewSettings={interviewSettings} setInterviewSettings={setInterviewSettings} />
+                <InterviewSettingsForm handleTab={handlePage} />
               </TabPanel>
             </TabPanels>
-            <DisplayCard
-              requisitionDetails={requisitionDetails}
-              jobDetails={jobDetails}
-              interviewSettings={interviewSettings}
-            />
+            <DisplayCard />
           </Grid>
         </Tabs>
       </Container>

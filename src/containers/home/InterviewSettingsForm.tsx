@@ -10,11 +10,9 @@ import {
   interviewLanguageOptions,
   interviewModeOptions,
 } from "./constants";
+import { useData } from "./DataProvider";
 
-const InterviewDetailsForm: React.FC<{
-  handleTab: (n: PageNumbers) => void;
-  setInterviewSettings: (details: IInterViewSettings) => void; interviewSettings: IInterViewSettings
-}> = ({ handleTab, setInterviewSettings, interviewSettings }) => {
+const InterviewDetailsForm: React.FC<{ handleTab: (n: PageNumbers) => void; }> = ({ handleTab }) => {
   const {
     errors,
     touched,
@@ -37,10 +35,17 @@ const InterviewDetailsForm: React.FC<{
       alert("Form successfully submitted");
     },
   });
+  const { setState } = useData(); // Use the useData hook
 
   const customSelectChange = (name: string, value: string) => {
     setFieldValue(name, value) //set values in Formik's Fields
-    setInterviewSettings({ ...interviewSettings, [name]: value, });
+    setState((prevState) => ({
+      ...prevState,
+      interviewSettings: {
+        ...prevState.interviewSettings,
+        [name]: value,
+      },
+    }));
   }
   return (
     <Box width="100%" as="form" onSubmit={handleSubmit as any}>
